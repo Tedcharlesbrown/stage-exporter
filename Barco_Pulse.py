@@ -1,0 +1,15 @@
+endpoints = [
+    # {"path": "input/active/refresh-rate", "description": "Active video input refresh rate", "type": "float", "range": "23.5 - 241.0"},  
+    {"path": "statistics.laserruntime.value", "description": "Counter value", "type": "int"},
+    {"path": "statistics.laserstrikes.value", "description": "Counter value", "type": "int"},
+    {"path": "statistics.projectorruntime.value", "description": "Counter value", "type": "int"},
+    {"path": "statistics.systemtime.value", "description": "Counter value", "type": "int"},
+    {"path": "statistics.uptime.value", "description": "Counter value", "type": "int"},
+    {"path": "system.familyname", "description": "Family name.", "type": "string"},
+    {"path": "system.firmwareversion", "description": "Firmware version.", "type": "string"},
+    {"path": "system.modelname", "description": "Model name.", "type": "string"},
+    {"path": "system.name", "description": "Custom name for this device.", "type": "string"},
+    {"path": "system.serialnumber", "description": "Serial number.", "type": "string"},
+    {"path": "system.state", "description": "Serial number.", "type": "enum", "supported_values": ["boot", "eco", "standby", "ready", "conditioning", "on", "service", "deconditioning", "error"]},
+    {"path": "system.targetstate", "description": "Serial number.", "type": "enum", "supported_values": ["boot", "eco", "standby", "ready", "conditioning", "on", "service", "deconditioning", "error"]},
+]

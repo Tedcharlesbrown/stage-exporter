@@ -1,0 +1,9 @@
+scrape_configs:
+  - static_configs:
+      - device: "brompton-tessera"
+        targets: ['127.0.0.1:80']
+        label: "local" 
+
+
+global:
+  scrape_interval: 15s
