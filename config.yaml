@@ -3,6 +3,9 @@ scrape_configs:
       - device: "brompton-tessera"
         targets: ['127.0.0.1:80']
         label: "local" 
+      - device: "disguise"
+        targets: ['127.0.0.1:80']
+        label: "local" 
 
 
 global:

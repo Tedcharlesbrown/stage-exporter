@@ -1,7 +1,7 @@
 from functions import validize_name
 from prometheus_client import Gauge
 
-BROMPTON_METRICS = {}
+METRICS = {}
 METRIC_PREFIX = "tessera_"
 
 endpoints = [
@@ -60,7 +60,7 @@ for endpoint in endpoints:
         description += f" RANGE: {endpoint['range']}"
 
     # Add the "source" label to the Gauge definition
-    BROMPTON_METRICS[endpoint['path']] = Gauge(
+    METRICS[endpoint['path']] = Gauge(
         f"{METRIC_PREFIX}{validize_name(endpoint['path'])}",  # Add the prefix to the metric name
         description,  # Metric description
         ["source"]  # Label name for identifying sources

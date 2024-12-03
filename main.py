@@ -1,7 +1,8 @@
 import time
 import os, yaml
 from prometheus_client import start_http_server
-from Brompton_Tessera import BROMPTON_METRICS
+from Brompton_Tessera import METRICS as BROMPTON_METRICS
+from Disguise import METRICS as DISGUISE_METRICS
 
 from functions import get_request, parse_restfull, json_get
 
@@ -47,12 +48,12 @@ def collect_metrics():
                 for target in targets:
                     ip, port = target.split(":")  # Split "ip:port" into components
 
-                    for path, metric in BROMPTON_METRICS.items():
+                    # for path, metric in BROMPTON_METRICS.items():
+                    for path, metric in DISGUISE_METRICS.items():
                         response = get_request(ip, port, path)
                         parse_restfull(metric, response, label)
 
         time.sleep(SCRAPE_INTERVAL)  # Use the global SCRAPE_INTERVAL
-
         
 
 if __name__ == "__main__":
