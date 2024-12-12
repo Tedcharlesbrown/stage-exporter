@@ -1,5 +1,6 @@
 from prometheus_client import Gauge, REGISTRY
 from functions import validize_name, get_request
+
 from API.Brompton_Tessera.api import endpoints
 
 DEBUG = False
@@ -59,6 +60,7 @@ def preprocess_endpoints(processor_type):
 	return filtered_endpoints
 
 
+
 def initialize_metrics(processor_type):
 	filtered_endpoints = preprocess_endpoints(processor_type)
 	for endpoint in filtered_endpoints:
@@ -77,7 +79,6 @@ def initialize_metrics(processor_type):
 				["source"]  # Label for identifying the source
 			)
 	return filtered_endpoints
-
 
 def collect_metrics(target, label):
 	ip, port = target.split(":")
@@ -114,10 +115,3 @@ def collect_metrics(target, label):
 				print(f"Empty response for path {path} from target {target}.")
 		except Exception as e:
 			print(f"Failed to fetch or set metric for {path}: {e}")
-
-	# Sort metrics alphabetically by source label
-	for metric_name, metric in METRICS.items():
-		if hasattr(metric, '_metrics'):
-			metric._metrics = {
-				k: v for k, v in sorted(metric._metrics.items(), key=lambda item: item[0][0])
-			}

@@ -1,8 +1,17 @@
 scrape_configs:
   - static_configs:
       - device: "brompton-tessera"
-        targets: ['127.0.0.1:80']
-        label: "local" 
+        model: "sx40"
+        targets: ['10.0.13.241:80']
+        label: "Zerospace-B_1" 
+      - device: "brompton-tessera"
+        model: "sx40"
+        targets: ['10.0.13.242:80']
+        label: "Zerospace-B_2" 
+      - device: "brompton-tessera"
+        model: "sx40"
+        targets: ['10.0.13.243:80']
+        label: "Zerospace-B_3" 
       - device: "disguise"
         targets: ['127.0.0.1:80']
         label: "local" 

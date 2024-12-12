@@ -7,7 +7,7 @@ METRIC_PREFIX = "disguise_"
 
 endpoints = [
     {"path": "api/session/status/session", "description": "Return the session config", "returns": ["isRunningSolo", "isDirectorDedicated", "Actors", "Understudies"]},
-    # {"path": "api/session/status/project", "description": "Return the project information", "returns": ["major", "minor", "hotfix", "revision"]},
+    {"path": "api/session/status/project", "description": "Return the project information", "returns": ["major", "minor", "hotfix", "revision"]},
 ]
 
 # Initialize Gauges

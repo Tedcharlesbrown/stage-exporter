@@ -1,63 +1,65 @@
 import time
-import os, yaml
+import os
+import yaml
 from prometheus_client import start_http_server
-from Brompton_Tessera import METRICS as BROMPTON_METRICS
-from Disguise import METRICS as DISGUISE_METRICS
-
 from functions import get_request, parse_restfull, json_get
+from threading import Thread
 
 SCRAPE_INTERVAL = 15
 
-# Function to load configuration from .yaml or .yml
+# Define modules globally
+modules = {
+	"brompton-tessera": "Brompton_Tessera",
+}
+
 def load_config(config_path="config.yaml"):
-    """
-    Load configuration from a YAML or YML file.
-    """
-    if not os.path.exists(config_path):  # If default config.yaml is missing
-        alt_path = config_path.replace(".yaml", ".yml")
-        if os.path.exists(alt_path):
-            config_path = alt_path
-        else:
-            raise FileNotFoundError(f"Neither {config_path} nor {alt_path} exists.")
-    with open(config_path, "r") as config_file:
-        return yaml.safe_load(config_file)
+	if not os.path.exists(config_path):
+		alt_path = config_path.replace(".yaml", ".yml")
+		if os.path.exists(alt_path):
+			config_path = alt_path
+		else:
+			raise FileNotFoundError(f"Neither {config_path} nor {alt_path} exists.")
+	with open(config_path, "r") as config_file:
+		return yaml.safe_load(config_file)
 
-
-
-
-        
 def get_global_settings(config):
-    """
-    Extract global settings from the YAML configuration.
-    """
-    global SCRAPE_INTERVAL
-    SCRAPE_INTERVAL = int(config.get("global", {}).get("scrape_interval", "15s").rstrip("s"))
+	global SCRAPE_INTERVAL
+	SCRAPE_INTERVAL = int(config.get("global", {}).get("scrape_interval", "15s").rstrip("s"))
 
+def collect_metrics_for_target(target, label, module_name):
+	while True:
+		try:
+			module = __import__(module_name)
+			module.collect_metrics(target, label)
+		except Exception as e:
+			print(f"Error in collecting metrics for {target}: {e}")
+		time.sleep(SCRAPE_INTERVAL)
 
-def collect_metrics():
-    """
-    Collect metrics by querying the API and updating Prometheus gauges.
-    """
-    while True:
-        for scrape_config in config["scrape_configs"]:
-            for static_config in scrape_config["static_configs"]:
-                device = static_config["device"]  # Extract device type (optional for further logic)
-                targets = static_config["targets"]  # List of targets
-                label = static_config["label"]  # Use the label for the "source" field
+def start_threads(config):
+	threads = []
+	for scrape_config in config["scrape_configs"]:
+		for static_config in scrape_config["static_configs"]:
+			device = static_config["device"]
+			targets = static_config["targets"]
+			label = static_config["label"]
 
-                for target in targets:
-                    ip, port = target.split(":")  # Split "ip:port" into components
+			module_name = modules.get(device)
+			if not module_name:
+				print(f"Unsupported device type: {device}")
+				continue
 
-                    # for path, metric in BROMPTON_METRICS.items():
-                    for path, metric in DISGUISE_METRICS.items():
-                        response = get_request(ip, port, path)
-                        parse_restfull(metric, response, label)
+			for target in targets:
+				thread = Thread(target=collect_metrics_for_target, args=(target, label, module_name))
+				thread.daemon = True  # Ensures threads exit when the main program exits
+				threads.append(thread)
+				thread.start()
 
-        time.sleep(SCRAPE_INTERVAL)  # Use the global SCRAPE_INTERVAL
-        
+	# Keep the main thread alive to allow threads to run
+	while True:
+		time.sleep(1)
 
 if __name__ == "__main__":
-    config = load_config()
-    get_global_settings(config)
-    start_http_server(8002)  # Expose metrics at localhost:8000
-    collect_metrics()
+	config = load_config()
+	get_global_settings(config)
+	start_http_server(8002)
+	start_threads(config)
