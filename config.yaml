@@ -13,7 +13,7 @@ scrape_configs:
         targets: ['10.0.13.243:80']
         label: "Zerospace-B_3" 
       - device: "disguise"
-        targets: ['127.0.0.1:80']
+        targets: ['192.168.8.100:80']
         label: "local" 
 
 

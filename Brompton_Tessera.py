@@ -92,6 +92,8 @@ def collect_metrics(target, label):
 				response_key = path.split("/")[-1]
 				value = response.get(response_key, None)
 				if value is not None:
+					if endpoint["type"] == "string":
+						METRICS[path].labels(source=value).set(1)
 					if endpoint["type"] == "enum":
 						if value in endpoint["supported_values"]:
 							index = endpoint["supported_values"].index(value)

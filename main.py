@@ -10,6 +10,7 @@ SCRAPE_INTERVAL = 15
 # Define modules globally
 modules = {
 	"brompton-tessera": "Brompton_Tessera",
+	# "disguise": "Disguise"
 }
 
 def load_config(config_path="config.yaml"):

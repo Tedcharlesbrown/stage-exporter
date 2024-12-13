@@ -2020,21 +2020,7 @@ endpoints = [
             "black",
             "grid",
             "scrolling-grid",
-            "checkerboard",
-            "scrolling-checkerboard",
-            "colour-bars",
-            "scrolling-colour-bars",
-            "gradient",
-            "scrolling-gradient",
-            "strobe",
-            "smpte-bars",
-            "scrolling-smpte-bars",
-            "custom-colour",
-            "custom",
-            "forty-five-degree-grid",
-            "scrolling-forty-five-degree-grid",
-            "custom-gradient",
-            "scrolling-custom-gradient"
+            ""
         ]
     },
     {
@@ -2063,7 +2049,25 @@ endpoints = [
         "type": "bool"
     },
     {
-        "name": "PROCESSING",
+        "name": "3D LUT DATA",
+        "path": "api/processing/3d-lut/data",
+        "description": "Send bulk data in .cube file format to upload 3D LUT",
+        "type": "bytearray"
+    },
+    {
+        "name": "3D LUT ENABLED",
+        "path": "api/processing/3d-lut/enabled",
+        "description": "Enables or disables 3D LUT mapping",
+        "type": "bool"
+    },
+    {
+        "name": "3D LUT FILENAME",
+        "path": "api/processing/3d-lut/filename",
+        "description": "The name of the stored 3D LUT file",
+        "type": "string"
+    },
+    {
+        "name": "3D LUT STRENGTH",
         "path": "api/processing/colour-correct/yellow/saturation",
         "description": "Gets or sets the value of the yellow saturation",
         "type": "float",
@@ -2247,10 +2251,35 @@ endpoints = [
     },
     {
         "name": "CURRENT DATE AND TIME",
+        "path": "api/system/current-date-time",
+        "description": "Current date/time of processor in yyyy-MM-dd hh:mm:ss 24 hour format",
+        "type": "string"
+    },
+    {
+        "name": "CASE FAN 1 SPEED",
+        "path": "api/system/fan/case/one/speed",
+        "description": "Current speed of the Case Fan",
+        "type": "float",
+        "range": "0 - 5000"
+    },
+    {
+        "name": "CASE FAN 1 STATUS",
+        "path": "api/system/fan/case/one/status",
+        "description": "Current activation status of Case Fan 1",
+        "type": "bool"
+    },
+    {
+        "name": "CASE FAN 2 SPEED",
+        "path": "api/system/fan/case/two/speed",
+        "description": "Current speed of Case Fan 2",
+        "type": "float",
+        "range": "0 - 5000"
+    },
+    {
+        "name": "CASE FAN 2 STATUS",
         "path": "api/system/fan/case/two/status",
         "description": "Current activation status of Case Fan 2",
-        "type": "bool",
-        "range": "0 - 5000"
+        "type": "bool"
     },
     {
         "name": "FPGA FAN SPEED",

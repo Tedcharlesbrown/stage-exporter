@@ -13,7 +13,9 @@ def parse_api_file(file_path):
 			if not line:
 				continue
 
-			if re.match(r"^[A-Z ]+$", line):
+
+			# if re.match(r"^[A-Z ]+$", line):
+			if re.match(r"^[A-Z0-9 ]+$", line):
 				if entry and "path" in entry:  # Ensure 'path' key exists before appending
 					endpoints.append(entry)
 				entry = {"name": line}
@@ -34,7 +36,7 @@ def parse_api_file(file_path):
 
 		if entry and "path" in entry:  # Append the last entry if it's valid
 			endpoints.append(entry)
-
+   
 	return endpoints
 
 if __name__ == "__main__":

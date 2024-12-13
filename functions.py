@@ -62,4 +62,4 @@ def json_get(url, property_name, request_id=1):
 		return None    
     
 def validize_name(name):
-	return name.replace("/","_").replace("-","_")
+	return name.replace("/","_").replace("-","_").replace("[","_").replace("]","_")
